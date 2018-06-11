@@ -32,13 +32,13 @@
 #define SETUP_SEL(sel, PSEL0, PSEL1, BIT)     \
 ({                                \
     if(sel & 0x01)                \
-        BIT_SET(PSEL0, BIT)       \
+        BIT_SET(PSEL0, BIT);       \
     else                          \
-        BIT_CLEAR(PSEL0, BIT)     \
+        BIT_CLEAR(PSEL0, BIT);     \
     if(sel & 0x02)                \
-        BIT_SET(PSEL1, BIT)       \
+        BIT_SET(PSEL1, BIT);       \
     else                          \
-        BIT_CLEAR(PSEL1, BIT)     \
+        BIT_CLEAR(PSEL1, BIT);     \
 })
 
 // PIN 4
@@ -110,6 +110,12 @@
 
 // PIN 82
 #define HFXIN_SETUP()               SETUP_SEL(SELECT_PERIPHERAL_1, PJSEL0, PJSEL1, BIT6)
+
+// PIN 84
+#define LFXIN_SETUP()               SETUP_SEL(SELECT_PERIPHERAL_1, PJSEL0, PJSEL1, BIT4)
+
+// PIN 85
+#define LFXOUT_SETUP()              SETUP_SEL(SELECT_PERIPHERAL_1, PJSEL0, PJSEL1, BIT5)
 
 // PIN 87
 #define FLASH_SPI_MOSI_SETUP ()     SETUP_SEL(SELECT_PERIPHERAL_1, P5SEL0, P5SEL1, BIT4)
