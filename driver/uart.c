@@ -7,7 +7,7 @@
 
 #include "uart.h"
 
-void uart_setup(uint32_t baudrate)
+void uart0_setup(uint32_t baudrate)
 {
     UCA0CTLW0 = UCSWRST;                      // Put eUSCI in reset
     UCA0CTLW0 |= UCSSEL__SMCLK;               // CLK = SMCLK
@@ -37,17 +37,17 @@ void uart_setup(uint32_t baudrate)
     __bis_SR_register(GIE);
 }
 
-void uart_write(uint8_t *data, uint8_t length)
+void uart0_write(uint8_t *data, uint8_t length)
 {
     while (length-- > 0)
     {
-        while (UCA0STATW & UCBUSY);    // Wait if line TX/RX module is busy with data
-        UCA0TXBUF = *data;         // Send out element i of tx_data array on UART bus
+        while (UCA0STATW & UCBUSY);
+        UCA0TXBUF = *data;
         data++;
     }
 }
 
-void uart_flush()
+void uart0_flush()
 {
     uint8_t x;
     while (UCA0IFG & UCRXIFG)
@@ -56,9 +56,9 @@ void uart_flush()
     }
 }
 
-void uart_read(uint8_t *data, uint8_t length)
+void uart0_read(uint8_t *data, uint8_t length)
 {
-    uart_flush();
+    uart0_flush();
     while (length--)
     {
         while (!(UCA0IFG & UCRXIFG));

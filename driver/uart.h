@@ -10,10 +10,10 @@
 #include <msp430.h>
 #include <stdint.h>
 
-void uart_write(uint8_t *data, uint8_t length);
-void uart_read(uint8_t *data, uint8_t length);
-void uart_flush();
-void uart_setup(uint32_t baudrate);
+void uart0_write(uint8_t *data, uint8_t length);
+void uart0_read(uint8_t *data, uint8_t length);
+void uart0_flush();
+void uart0_setup(uint32_t baudrate);
 
 
 #endif /* DRIVER_UART_H_ */
