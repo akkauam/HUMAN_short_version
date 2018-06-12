@@ -10,6 +10,7 @@
 #include <msp430.h>
 #include <stdint.h>
 
+void uart0_set_rx_pointer(uint8_t *buffer_address);
 void uart0_write(uint8_t *data, uint8_t length);
 void uart0_read(uint8_t *data, uint8_t length);
 void uart0_flush();

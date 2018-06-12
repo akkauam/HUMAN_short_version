@@ -7,6 +7,15 @@
 
 #include "uart.h"
 
+uint8_t *p_rx_buffer;
+uint8_t *buffer_iterator;
+
+void uart0_set_rx_pointer(uint8_t *buffer_address)
+{
+    p_rx_buffer = buffer_address;
+    buffer_iterator = p_rx_buffer;
+}
+
 void uart0_setup(uint32_t baudrate)
 {
     UCA0CTLW0 = UCSWRST;                      // Put eUSCI in reset
@@ -32,9 +41,8 @@ void uart0_setup(uint32_t baudrate)
     }
 
     UCA0CTLW0 &= ~UCSWRST;                    // Initialize eUSCI
+//    UCA0IE |= UCRXIE | UCSTTIE;               // Enable USCI_A0 RX and start interrupt
     UCA0IE |= UCRXIE;                         // Enable USCI_A0 RX interrupt
-
-    __bis_SR_register(GIE);
 }
 
 void uart0_write(uint8_t *data, uint8_t length)
@@ -75,12 +83,13 @@ __interrupt void USCI_A0_ISR(void)
   {
     case USCI_NONE: break;
     case USCI_UART_UCRXIFG:
-      while(!(UCA0IFG & UCTXIFG));
-//      UCA0TXBUF = UCA0RXBUF;
-      __no_operation();
+      *buffer_iterator = UCA0RXBUF;
+      buffer_iterator++;
       break;
     case USCI_UART_UCTXIFG: break;
-    case USCI_UART_UCSTTIFG: break;
+    case USCI_UART_UCSTTIFG:
+//        buffer_iterator = p_rx_buffer;
+        break;
     case USCI_UART_UCTXCPTIFG: break;
   }
 }
