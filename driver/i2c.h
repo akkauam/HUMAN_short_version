@@ -9,7 +9,10 @@
 
 #include <stdint.h>
 
-void i2c0_prepare_to_send(uint8_t *data, uint16_t length);
-void i2c0_setup(uint8_t *rx_buffer_address, uint16_t rx_max_size, uint16_t *p_rx_size);
+#define I2C_FLAG_RX     0x01
+#define I2C_FLAG_TX     0x02
+#define I2C_FLAG_STOP   0x04
+
+void i2c0_setup(uint8_t *buffer_address, uint8_t *new_data_flag);
 
 #endif /* DRIVER_I2C_H_ */
