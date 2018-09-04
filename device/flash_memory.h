@@ -30,17 +30,17 @@
 #define MEMORY_STATUS_WIP       BIT0     /* Bit 0: Write in progress bit */
 #define MEMORY_STATUS_WEL       BIT1     /* Bit 1: Write enable latch bit */
 
-void memory_setup();
-void memory_enable();
-void memory_disable();
-void memory_write_enable();
-void memory_write_disable();
-uint8_t memory_status();
+void memory_setup(void);
+void memory_enable(void);
+void memory_disable(void);
+void memory_write_enable(void);
+void memory_write_disable(void);
+uint8_t memory_status(void);
 void memory_id(uint8_t *id);
 void memory_page_program(uint32_t address, uint8_t *data, uint16_t length);
 void memory_read(uint32_t address, uint8_t *data, uint32_t length);
 void memory_sector_erase(uint32_t address);
 void memory_block_32k_erase(uint32_t address);
-void memory_chip_erase();
+void memory_chip_erase(void);
 
 #endif /* FLASH_MEMORY_H_ */

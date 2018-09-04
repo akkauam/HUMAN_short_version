@@ -2,16 +2,14 @@
  * main.c
  */
 
-#include "device/mcu.h"
+#include "src/boot.h"
+#include "src/housekeeper.h"
+#include "src/update_manager.h"
 
-void update_firmware();
-void housekeeping();
 
 int main(void)
 {
     mcu_boot();
-
-    update_firmware();
 
     housekeeping();
 
@@ -21,16 +19,5 @@ int main(void)
 }
 
 
-void update_firmware()
-{
 
-}
 
-void housekeeping()
-{
-    while(1)
-    {
-//        verify_image_integrity();
-
-    }
-}

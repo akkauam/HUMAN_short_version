@@ -7,7 +7,7 @@
 
 #include "flash_memory.h"
 
-void memory_setup()
+void memory_setup(void)
 {
     BIT_SET(MEMORY_CE_OUT, MEMORY_CE_PIN);
     BIT_SET(MEMORY_CE_DIR, MEMORY_CE_PIN);
@@ -19,32 +19,32 @@ void memory_setup()
     BIT_SET(MEMORY_HOLD_OUT, MEMORY_HOLD_PIN);
 }
 
-void memory_enable()
+void memory_enable(void)
 {
     BIT_CLEAR(MEMORY_CE_OUT, MEMORY_CE_PIN);
     __delay_cycles(10);
 }
-void memory_disable()
+void memory_disable(void)
 {
     BIT_SET(MEMORY_CE_OUT, MEMORY_CE_PIN);
     __delay_cycles(10);
 }
 
-void memory_write_enable()
+void memory_write_enable(void)
 {
     memory_enable();
     spi_write_byte(MEMORY_COMMAND_WREN);
     memory_disable();
 }
 
-void memory_write_disable()
+void memory_write_disable(void)
 {
     memory_enable();
     spi_write_byte(MEMORY_COMMAND_WRDI);
     memory_disable();
 }
 
-uint8_t memory_status()
+uint8_t memory_status(void)
 {
     volatile uint8_t status;
 
@@ -163,7 +163,7 @@ void memory_block_32k_erase(uint32_t address)
     while(memory_status() & MEMORY_STATUS_WIP);
 }
 
-void memory_chip_erase()
+void memory_chip_erase(void)
 {
 //    if((memory_status() & MEMORY_STATUS_WEL) == 0)
 //    {

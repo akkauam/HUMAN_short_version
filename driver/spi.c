@@ -6,7 +6,7 @@
  */
 #include "spi.h"
 
-void spi_setup()
+void spi_setup(void)
 {
 //    BIT_SET(P5SEL0, (BIT4 | BIT5 | BIT6 | BIT7));
 //    BIT_CLEAR(P5SEL1, (BIT4 | BIT5 | BIT6 | BIT7));
@@ -33,7 +33,7 @@ void spi_write_byte(uint8_t byte)
     while(!(UCA0IFG & UCRXIFG)); //wait_for_data_sent
 }
 
-uint8_t spi_read_byte()
+uint8_t spi_read_byte(void)
 {
     while(!(UCA0IFG & UCTXIFG)); //wait_for_buffer_empty
     UCA0TXBUF = 0;

@@ -40,7 +40,7 @@ void dma1_setup(void)
     __data16_write_addr((unsigned short) &DMA1DA,(unsigned long) DMA1_DESTINATION_ADDRESS);
 
     DMA1SZ = DMA1_BLOCK_SIZE;
-    DMA1CTL = DMADT_2 | DMASRCINCR_3 | DMADSTINCR_0 ;        // Rpt block, inc src
+    DMA1CTL = DMADT_2 | DMASRCINCR_3 | DMADSTINCR_0 ;        // burst-block, inc src
     DMA1CTL |= DMAEN;
 }
 

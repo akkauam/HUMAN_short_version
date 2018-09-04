@@ -12,7 +12,7 @@
 #include "../driver/clock.h"
 #include "../driver/uart.h"
 
-void setup_gpio()
+void setup_gpio(void)
 {
     // Disable the GPIO power-on default high-impedance mode to activate
     // previously configured port settings
@@ -24,7 +24,7 @@ void setup_gpio()
     BRAVE_UART_TX_SETUP();
 }
 
-void setup_communication_interfaces()
+void setup_communication_interfaces(void)
 {
 //    uca0_setup(USCI_SPI_MODE);
     uart0_setup(115200);
@@ -32,7 +32,7 @@ void setup_communication_interfaces()
 //    ucb1_setup(USCI_SPI_MODE);
 }
 
-void setup_hardware()
+void setup_hardware(void)
 {
 //    watchdog_timer_setup();
 
@@ -41,9 +41,4 @@ void setup_hardware()
     clock_setup();
 
     setup_communication_interfaces();
-}
-
-void mcu_boot()
-{
-    setup_hardware();
 }

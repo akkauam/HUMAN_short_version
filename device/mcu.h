@@ -10,7 +10,7 @@
 #define DEVICE_MCU_H_
 
 
-void mcu_boot();
+void setup_hardware(void);
 
 
 #endif /* DEVICE_MCU_H_ */
