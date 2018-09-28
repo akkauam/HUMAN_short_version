@@ -9,6 +9,7 @@
 #include <msp430.h>
 #include "../hal.h"
 #include "mcu.h"
+#include "../driver/watchdog_timer.h"
 #include "../driver/clock.h"
 #include "../driver/uart.h"
 
@@ -18,6 +19,7 @@ void setup_gpio(void)
     // previously configured port settings
     PM5CTL0 &= ~LOCKLPM5;
 
+    gpio_reset();
 //    mux_demux_setup()
 //    flash_setup();
     BRAVE_UART_RX_SETUP();
@@ -34,7 +36,7 @@ void setup_communication_interfaces(void)
 
 void setup_hardware(void)
 {
-//    watchdog_timer_setup();
+    watchdog_timer_setup();
 
     setup_gpio();
 

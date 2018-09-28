@@ -10,7 +10,7 @@
 
 void watchdog_timer_setup(void);
 void watchdog_timer_reset_counter(void);
-
+void watchdog_timer_release_counter(void);
 
 
 

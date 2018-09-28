@@ -41,6 +41,33 @@
         BIT_CLEAR(PSEL1, BIT);    \
 })
 
+
+//(ULP 4.1) Detected uninitialized Port D in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.</a>  null: (ULP 4.1) Detected uninitialized Port D in this project.
+// Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+
+#define gpio_reset() {                 \
+                        P1DIR = 0x00;  \
+                        P2DIR = 0x00;  \
+                        P3DIR = 0x00;  \
+                        P4DIR = 0x00;  \
+                        P5DIR = 0x00;  \
+                        P6DIR = 0x00;  \
+                        P7DIR = 0x00;  \
+                        P8DIR = 0x00;  \
+                        P9DIR = 0x00;  \
+                        P10DIR = 0x00; \
+                        P1OUT = 0x00;  \
+                        P2OUT = 0x00;  \
+                        P3OUT = 0x00;  \
+                        P4OUT = 0x00;  \
+                        P5OUT = 0x00;  \
+                        P6OUT = 0x00;  \
+                        P7OUT = 0x00;  \
+                        P8OUT = 0x00;  \
+                        P9OUT = 0x00;  \
+                        P10OUT = 0x00; \
+                    }
+
 // PIN 4
 #define SAT_BUS_I2C_SDA_SETUP()     SETUP_SEL(SELECT_PERIPHERAL_1, P1SEL0, P1SEL1, BIT6)
 
