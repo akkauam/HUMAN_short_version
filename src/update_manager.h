@@ -11,5 +11,6 @@
 
 void update_target(void);
 void handle_new_bitstream_segment(uint8_t *new_segment, uint16_t sequence_number);
+void swap_image_in_use(uint8_t version);
 
 #endif /* SRC_UPDATE_MANAGER_H_ */

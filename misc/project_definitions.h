@@ -30,7 +30,7 @@ typedef struct {
 #define SPARE_SIZE                  (458752)
 #define COPY_SIZE                   (IMAGE_MAX_SIZE + METADATA_MAX_SIZE + SPARE_SIZE)
 
-#define CURRENT_IMAGE_ADDRESS       (0)
+#define RUNNING_IMAGE_ADDRESS       (0)
 #define CURRENT_METADATA_ADDRESS    (CURRENT_IMAGE_ADDRESS + IMAGE_MAX_SIZE)
 
 #define IMAGE_A_COPY_1_ADDRESS      (COPY_SIZE)
