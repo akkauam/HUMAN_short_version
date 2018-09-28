@@ -7,8 +7,9 @@
 #ifndef SRC_UPDATE_MANAGER_H_
 #define SRC_UPDATE_MANAGER_H_
 
+#include "stdint.h"
 
 void update_target(void);
-
+void handle_new_bitstream_segment(uint8_t *new_segment, uint16_t sequence_number);
 
 #endif /* SRC_UPDATE_MANAGER_H_ */

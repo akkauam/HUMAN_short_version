@@ -30,6 +30,8 @@
 #define MEMORY_STATUS_WIP       BIT0     /* Bit 0: Write in progress bit */
 #define MEMORY_STATUS_WEL       BIT1     /* Bit 1: Write enable latch bit */
 
+#define SECTOR_SIZE              512      /* Bytes*/
+
 void memory_setup(void);
 void memory_enable(void);
 void memory_disable(void);
