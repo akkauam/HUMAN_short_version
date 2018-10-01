@@ -9,24 +9,18 @@
 
 void memory_setup(void)
 {
-    BIT_SET(MEMORY_CE_OUT, MEMORY_CE_PIN);
-    BIT_SET(MEMORY_CE_DIR, MEMORY_CE_PIN);
-
-    BIT_SET(MEMORY_WP_DIR, MEMORY_WP_PIN);
-    BIT_SET(MEMORY_WP_OUT, MEMORY_WP_PIN);
-
-    BIT_SET(MEMORY_HOLD_DIR, MEMORY_HOLD_PIN);
-    BIT_SET(MEMORY_HOLD_OUT, MEMORY_HOLD_PIN);
+    FLASH_SELECT_N_OUTPUT(HIGH);
+    FLASH_SELECT_N_SETUP();
 }
 
 void memory_enable(void)
 {
-    BIT_CLEAR(MEMORY_CE_OUT, MEMORY_CE_PIN);
+    FLASH_SELECT_N_OUTPUT(LOW);
     __delay_cycles(10);
 }
 void memory_disable(void)
 {
-    BIT_SET(MEMORY_CE_OUT, MEMORY_CE_PIN);
+    FLASH_SELECT_N_OUTPUT(HIGH);
     __delay_cycles(10);
 }
 
@@ -88,17 +82,19 @@ void memory_page_program(uint32_t address, uint8_t *data, uint16_t length)
     spi_write_byte(address>>8  & 0xFF);
     spi_write_byte(address     & 0xFF);
 
-//    for(i = 0; i < length; i++)
-//    {
-//        spi_write_byte(data[i]);
-//    }
-    for(i = 0; i < length; i = i+4)
+    for(i = 0; i < length; i++)
     {
-        spi_write_byte(data[i+3]);
-        spi_write_byte(data[i+2]);
-        spi_write_byte(data[i+1]);
         spi_write_byte(data[i]);
     }
+
+//    testing purpose: bitstream is backwards
+//    for(i = 0; i < length; i = i+4)
+//    {
+//        spi_write_byte(data[i+3]);
+//        spi_write_byte(data[i+2]);
+//        spi_write_byte(data[i+1]);
+//        spi_write_byte(data[i]);
+//    }
 
     memory_disable();
 
