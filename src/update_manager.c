@@ -6,6 +6,8 @@
  */
 #include "update_manager.h"
 #include "../device/flash_memory.h"
+#include "../device/brave.h"
+#include "../device/utmc.h"
 #include "../misc/project_definitions.h"
 
 uint32_t image_in_use;
@@ -16,10 +18,9 @@ volatile uint8_t FRAM_sector_data[SECTOR_SIZE] = {0xFF};
 
 void update_target(void)
 {
-    //brave power_on
+    brave_power_on();
 
-    //utmc reset
-
+    utmc_power_on();
 }
 
 void handle_new_bitstream_segment(uint8_t *new_segment, uint16_t sequence_number)

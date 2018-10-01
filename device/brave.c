@@ -8,30 +8,20 @@
 #include "../hal.h"
 #include "../driver/uart.h"
 
-
 #pragma PERSISTENT(buffer)
 uint8_t buffer[3600] = {0};
-
-
-
-void reset_brave(void)
-{
-    BRAVE_HARD_RESET_N_OUTPUT(LOW);
-    __delay_cycles(100);
-    BRAVE_HARD_RESET_N_OUTPUT(HIGH);
-}
 
 uint8_t brave_status(void)
 {
     uint8_t status = BRAVE_CONFIGURATION_UNKNOWN;
 
-    if(READ_BRAVE_CONFIG_ERROR() == 1)
+    if(READ_BRAVE_CONFIG_ERROR() == HIGH)
     {
         status = BRAVE_CONFIGURATION_ERROR;
     }
     else
     {
-        if (READ_BRAVE_CONFIG_READY() == 1)
+        if (READ_BRAVE_CONFIG_READY() == HIGH)
         {
             status = BRAVE_CONFIGURATION_OK;
         }

@@ -12,6 +12,9 @@
 #include "../driver/watchdog_timer.h"
 #include "../driver/clock.h"
 #include "../driver/uart.h"
+#include "../device/brave.h"
+#include "../device/utmc.h"
+#include "../device/mux.h"
 
 void setup_gpio(void)
 {
@@ -20,10 +23,14 @@ void setup_gpio(void)
     PM5CTL0 &= ~LOCKLPM5;
 
     gpio_reset();
-//    mux_demux_setup()
+
+    brave_setup();
+
+    utmc_setup();
+
+    mux_setup();
+
 //    flash_setup();
-    BRAVE_UART_RX_SETUP();
-    BRAVE_UART_TX_SETUP();
 }
 
 void setup_communication_interfaces(void)
