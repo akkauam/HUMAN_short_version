@@ -9,7 +9,7 @@
 
 #include "dma.h"
 
-#define DMA0_SOURCE_ADDRESS         0x05CC      //UCA0RXBUF
+#define DMA0_SOURCE_ADDRESS         0x064C      //UCB0RXBUF
 #define DMA0_DESTINATION_ADDRESS    0x1C40
 
 #define DMA0_BLOCK_SIZE             1200        //CCSDS max frame size
@@ -22,8 +22,8 @@
 
 void dma0_setup(void)
 {
-    DMACTL0 &= ~(0x001F);                 //clear DMA0SEL
-    DMACTL0 |= DMA0TSEL__UCA0RXIFG;       //i2c tx
+    DMACTL0 &= ~(0x001F);                 // clear DMA0SEL
+    DMACTL0 |= DMA0TSEL__UCB0RXIFG0;      // i2c tx
     __data16_write_addr((unsigned short) &DMA0SA,(unsigned long) DMA0_SOURCE_ADDRESS);
     __data16_write_addr((unsigned short) &DMA0DA,(unsigned long) DMA0_DESTINATION_ADDRESS);
 
@@ -34,8 +34,8 @@ void dma0_setup(void)
 
 void dma1_setup(void)
 {
-    DMACTL0 &= ~(0x1F00);               //clear DMA1SEL
-    DMACTL0 |= DMA1TSEL__DMAREQ;        //crc ready
+    DMACTL0 &= ~(0x1F00);               // clear DMA1SEL
+    DMACTL0 |= DMA1TSEL__DMAREQ;        // crc ready
     __data16_write_addr((unsigned short) &DMA1SA,(unsigned long) DMA1_SOURCE_ADDRESS);
     __data16_write_addr((unsigned short) &DMA1DA,(unsigned long) DMA1_DESTINATION_ADDRESS);
 

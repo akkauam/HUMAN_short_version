@@ -57,7 +57,7 @@ void uart0_write(uint8_t *data, uint8_t length)
 
 void uart0_flush(void)
 {
-    uint8_t x;
+    volatile uint8_t x;
     while (UCA0IFG & UCRXIFG)
     {
         x = UCA0RXBUF;

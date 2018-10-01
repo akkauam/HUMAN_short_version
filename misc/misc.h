@@ -17,4 +17,10 @@
 /**< macro that put the BIT_VALUE in the BIT position of the REG address */
 #define BIT_PUT(REG, BIT, BIT_VALUE)    ((BIT_VALUE & 1) == 1) ? BIT_SET(REG, BIT) : BIT_CLEAR(REG, BIT)
 
+#ifdef DIAGNOSTIC_MODE
+#define ASSERT(x)   if(x != 1){ __disable_interrupt(); while(1);}
+#else
+#define ASSERT(x)
+#endif
+
 #endif /* MISC_H_ */
