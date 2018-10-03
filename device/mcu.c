@@ -54,6 +54,8 @@ void setup_hardware(void)
     setup_communication_interfaces();
 
     dma0_setup();
+
+    watchdog_timer_reset_counter();
 }
 
 void enable_interrupts(void)

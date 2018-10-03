@@ -9,8 +9,8 @@
 
 void watchdog_timer_setup(void)
 {
-    WDTCTL = WDTPW | WDTCNTCL | WDTSSEL__ACLK | WDTIS_3;    // reset counter, clock based on SMCLK (32,768 kHz),
-                                                             // 16 seconds until overflow
+    WDTCTL = WDTPW | WDTCNTCL | WDTSSEL__ACLK | WDTIS_2;    // reset counter, clock based on SMCLK (32,768 kHz),
+                                                             // 256 seconds until overflow
 }
 
 void watchdog_timer_reset_counter(void)

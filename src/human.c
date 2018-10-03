@@ -208,6 +208,8 @@ void check_bitstreams_integrity(uint32_t bitstream_address[3])
         default: //something is very wrong
             break;
         }
+
+        watchdog_timer_reset_counter();
     }
     //tem que ter um lugar para contar a quantidade de erros encontrados e quantidade corrigida
 }
@@ -228,6 +230,8 @@ uint8_t check_active_bitstream_integrity(void)
         {
             status = RUNNING_IMAGE_OK;
         }
+
+        watchdog_timer_reset_counter();
     }
 
     return status;
