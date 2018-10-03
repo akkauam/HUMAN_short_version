@@ -33,8 +33,6 @@
 #define SECTOR_SIZE              512      /* Bytes*/
 
 void memory_setup(void);
-void memory_enable(void);
-void memory_disable(void);
 void memory_write_enable(void);
 void memory_write_disable(void);
 uint8_t memory_status(void);

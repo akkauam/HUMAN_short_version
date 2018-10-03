@@ -10,7 +10,7 @@
 #include <stdint.h>
 
 void dma0_setup(void);
-void dma1_setup(void);
+void dma1_setup(uint32_t dma1_source_address);
 void dma0_start(void);
 void dma1_start(void);
 uint8_t dma1_ready(void);

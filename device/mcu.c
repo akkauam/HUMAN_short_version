@@ -12,9 +12,11 @@
 #include "../driver/watchdog_timer.h"
 #include "../driver/clock.h"
 #include "../driver/uart.h"
+#include "../driver/dma.h"
 #include "../device/brave.h"
 #include "../device/utmc.h"
 #include "../device/mux.h"
+#include "../device/flash_memory.h"
 
 void setup_gpio(void)
 {
@@ -30,7 +32,7 @@ void setup_gpio(void)
 
     mux_setup();
 
-//    flash_setup();
+    memory_setup();
 }
 
 void setup_communication_interfaces(void)
@@ -50,4 +52,11 @@ void setup_hardware(void)
     clock_setup();
 
     setup_communication_interfaces();
+
+    dma0_setup();
+}
+
+void enable_interrupts(void)
+{
+
 }

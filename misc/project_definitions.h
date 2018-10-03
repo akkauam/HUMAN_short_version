@@ -18,13 +18,12 @@
 
 typedef struct {
     uint8_t data[BITSTREAM_SEGMENT_SIZE];
-    uint8_t image_version;
-    uint8_t sequence_number[2];
-    uint8_t crc[2];
+    uint16_t sequence_number;
+    uint16_t crc;
 } bitstream_segment_t;
 
 
-//memory position  in kB
+//memory position  in bytes
 #define IMAGE_MAX_SIZE              (1572864)   //1,5 MB
 #define METADATA_MAX_SIZE           (65536)
 #define SPARE_SIZE                  (458752)

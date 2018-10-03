@@ -5,25 +5,25 @@
  *      Author: elder
  */
 #include "../device/mcu.h"
-#include "../src/update_manager.h"
-
-void verify_image_integrity(void)
-{
-
-}
-
-void enable_interrupts(void)
-{
-
-}
+#include "../src/human.h"
 
 void mcu_boot(void)
 {
     setup_hardware();
 
-    verify_image_integrity();
+    if(check_active_bitstream_integrity() == RUNNING_IMAGE_CORRUPTED)
+    {
+        swap_image_in_use(CHOOSE_IMAGE_A);
+
+        if(check_active_bitstream_integrity() == RUNNING_IMAGE_CORRUPTED)
+        {
+            swap_image_in_use(CHOOSE_IMAGE_B);
+        }
+    }
 
     update_target();
+
+    //checks if there is an error using this configuration
 
     enable_interrupts();
 }

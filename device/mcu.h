@@ -11,6 +11,6 @@
 
 
 void setup_hardware(void);
-
+void enable_interrupts(void);
 
 #endif /* DEVICE_MCU_H_ */

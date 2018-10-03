@@ -3,8 +3,7 @@
  */
 
 #include "src/boot.h"
-#include "src/housekeeper.h"
-#include "src/update_manager.h"
+#include "src/human.h"
 
 
 int main(void)
