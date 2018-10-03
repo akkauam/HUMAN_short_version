@@ -5,7 +5,6 @@
 #include "src/boot.h"
 #include "src/human.h"
 
-
 int main(void)
 {
     mcu_boot();

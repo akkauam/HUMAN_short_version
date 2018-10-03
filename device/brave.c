@@ -4,9 +4,9 @@
  *  Created on: 11 de jun de 2018
  *      Author: elder
  */
-#include "brave.h"
 #include "../hal.h"
 #include "../driver/uart.h"
+#include "brave.h"
 
 #pragma PERSISTENT(buffer)
 uint8_t buffer[3600] = {0};

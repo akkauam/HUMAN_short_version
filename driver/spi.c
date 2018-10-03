@@ -4,6 +4,8 @@
  *  Created on: 30 de abr de 2018
  *      Author: elder
  */
+#include "../misc/misc.h"
+#include "../hal.h"
 #include "spi.h"
 
 void spi_setup(void)

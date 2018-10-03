@@ -15,7 +15,6 @@
 #include "../device/utmc.h"
 #include "human.h"
 
-
 #pragma PERSISTENT(FRAM_segment)
 bitstream_segment_t FRAM_segment = {0xFF};
 
@@ -45,7 +44,6 @@ void housekeeping(void)
 
     check_bitstreams_integrity(bitstream_address);
 }
-
 
 void write_segment_in_memory(bitstream_segment_t *bitstream_segment, uint32_t bitstream_address)
 {
@@ -236,4 +234,3 @@ uint8_t check_active_bitstream_integrity(void)
 
     return status;
 }
-

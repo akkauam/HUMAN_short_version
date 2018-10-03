@@ -4,11 +4,11 @@
  *  Created on: 3 de jul de 2018
  *      Author: elder
  */
-#include "crc.h"
+
 #include <msp430.h>
+#include "crc.h"
 
-
-#define CRC_SEED 0xFFFF     //CRC-16/CCITT-FALSE
+#define CRC_SEED    (0xFFFF)     //CRC-16/CCITT-FALSE
 
 void crc_init(void)
 {

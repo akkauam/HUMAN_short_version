@@ -4,7 +4,7 @@
  *  Created on: 4 de set de 2018
  *      Author: elder
  */
-#include "msp430.h"
+#include <msp430.h>
 #include "watchdog_timer.h"
 
 void watchdog_timer_setup(void)

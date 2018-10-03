@@ -9,12 +9,12 @@
 #include "../misc/project_definitions.h"
 #include "dma.h"
 
-#define DMA0_SOURCE_ADDRESS         0x064C      //UCB0RXBUF
-#define DMA0_DESTINATION_ADDRESS    0x1C40
+#define DMA0_SOURCE_ADDRESS         (0x00064C)      //&UCB0RXBUF
+#define DMA0_DESTINATION_ADDRESS    (0x001C40)
 
-#define DMA0_BLOCK_SIZE             1200        //CCSDS max frame size
+#define DMA0_BLOCK_SIZE             (1200)          //CCSDS max frame size
 
-#define DMA1_DESTINATION_ADDRESS    0x0152      //CRCDIRB CRC input
+#define DMA1_DESTINATION_ADDRESS    (0x000152)      //&CRCDIRB CRC input
 
 #define DMA1_BLOCK_SIZE             (BITSTREAM_SEGMENT_SIZE + 2)     //frame size + seq. number
 

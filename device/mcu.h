@@ -9,7 +9,6 @@
 #ifndef DEVICE_MCU_H_
 #define DEVICE_MCU_H_
 
-
 void setup_hardware(void);
 void enable_interrupts(void);
 

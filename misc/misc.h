@@ -4,11 +4,10 @@
  *  Created on: 30 de abr de 2018
  *      Author: elder
  */
-
 #ifndef MISC_H_
 #define MISC_H_
 
-#include "stdint.h"
+#include <stdint.h>
 
 #define BIT_TOGGLE(REG, BIT)            (REG ^= BIT)        /**< macro that toggles a bit in a register */
 #define BIT_SET(REG, BIT)               (REG |= BIT)        /**< macro that set a bit in a register */

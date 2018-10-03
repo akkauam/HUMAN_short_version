@@ -6,6 +6,7 @@
  */
 #include "../device/mcu.h"
 #include "../src/human.h"
+#include "boot.h"
 
 void mcu_boot(void)
 {

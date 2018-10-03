@@ -7,7 +7,6 @@
 #ifndef DRIVER_UART_H_
 #define DRIVER_UART_H_
 
-#include <msp430.h>
 #include <stdint.h>
 
 void uart0_set_rx_pointer(uint8_t *buffer_address);

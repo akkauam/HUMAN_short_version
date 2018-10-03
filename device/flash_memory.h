@@ -8,9 +8,7 @@
 #ifndef FLASH_MEMORY_H_
 #define FLASH_MEMORY_H_
 
-#include "../hal.h"
-#include "../misc/misc.h"
-#include "../driver/spi.h"
+#include <stdint.h>
 
 /* Instructions */
 
@@ -27,10 +25,10 @@
 #define MEMORY_COMMAND_BER64    0xD8     /* 64K Block Erase           3   0     */
 #define MEMORY_COMMAND_CER      0xC7     /* Chip Erase                0   0     */
 
-#define MEMORY_STATUS_WIP       BIT0     /* Bit 0: Write in progress bit */
-#define MEMORY_STATUS_WEL       BIT1     /* Bit 1: Write enable latch bit */
+#define MEMORY_STATUS_WIP       0x01     /* Bit 0: Write in progress bit */
+#define MEMORY_STATUS_WEL       0x02     /* Bit 1: Write enable latch bit */
 
-#define SECTOR_SIZE              512      /* Bytes*/
+#define SECTOR_SIZE             512      /* Bytes*/
 
 void memory_setup(void);
 void memory_write_enable(void);

@@ -5,7 +5,12 @@
  *      Author: elder
  */
 
+#include "../misc/misc.h"
+#include "../hal.h"
+#include "../driver/spi.h"
 #include "flash_memory.h"
+
+#define wait_while_memory_is_busy()   while(memory_status() & MEMORY_STATUS_WIP)
 
 void memory_setup(void)
 {
@@ -98,7 +103,7 @@ void memory_page_program(uint32_t address, uint8_t *data, uint16_t length)
 
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }
 
 void memory_read(uint32_t address, uint8_t *data, uint32_t length)
@@ -137,7 +142,7 @@ void memory_sector_erase(uint32_t address)
 
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }
 
 void memory_block_32k_erase(uint32_t address)
@@ -156,7 +161,7 @@ void memory_block_32k_erase(uint32_t address)
 
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }
 
 void memory_chip_erase(void)
@@ -172,5 +177,5 @@ void memory_chip_erase(void)
 
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }

@@ -8,15 +8,15 @@
 
 #include <msp430.h>
 #include "../hal.h"
-#include "mcu.h"
-#include "../driver/watchdog_timer.h"
 #include "../driver/clock.h"
-#include "../driver/uart.h"
 #include "../driver/dma.h"
+#include "../driver/uart.h"
+#include "../driver/watchdog_timer.h"
 #include "../device/brave.h"
-#include "../device/utmc.h"
-#include "../device/mux.h"
 #include "../device/flash_memory.h"
+#include "../device/mux.h"
+#include "../device/utmc.h"
+#include "mcu.h"
 
 void setup_gpio(void)
 {

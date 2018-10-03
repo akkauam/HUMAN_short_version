@@ -4,8 +4,8 @@
  *  Created on: 4 de set de 2018
  *      Author: elder
  */
-#include "mux.h"
 #include "../hal.h"
+#include "mux.h"
 
 void mux_setup(void)
 {

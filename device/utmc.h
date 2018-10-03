@@ -9,8 +9,8 @@
 
 #include <stdint.h>
 
-#define UTMC_STATE_ERROR                0
-#define UTMC_STATE_OK                   1
+#define UTMC_STATE_ERROR      0
+#define UTMC_STATE_OK         1
 
 void utmc_setup(void);
 uint8_t utmc_status(void);

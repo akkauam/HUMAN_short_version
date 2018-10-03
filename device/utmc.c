@@ -4,8 +4,8 @@
  *  Created on: 4 de set de 2018
  *      Author: elder
  */
-#include "utmc.h"
 #include "../hal.h"
+#include "utmc.h"
 
 void utmc_setup(void)
 {

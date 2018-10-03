@@ -5,8 +5,8 @@
  *      Author: elder
  */
 
-#include "clock.h"
 #include "../hal.h"
+#include "clock.h"
 
 #define     XT_MAX_STARTUP_TIME     10000
 

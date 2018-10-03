@@ -10,7 +10,7 @@
 
 uint8_t address_counter;
 uint32_t address;
-uint8_t *buffer;
+static uint8_t *buffer;
 uint8_t *flag;
 
 

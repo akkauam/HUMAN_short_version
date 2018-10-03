@@ -5,6 +5,7 @@
  *      Author: elder
  */
 
+#include <msp430.h>
 #include "uart.h"
 
 uint8_t *p_rx_buffer;
