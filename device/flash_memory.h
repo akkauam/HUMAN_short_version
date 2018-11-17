@@ -8,9 +8,7 @@
 #ifndef FLASH_MEMORY_H_
 #define FLASH_MEMORY_H_
 
-#include "../hal.h"
-#include "../misc/misc.h"
-#include "../driver/spi.h"
+#include <stdint.h>
 
 /* Instructions */
 
@@ -27,20 +25,20 @@
 #define MEMORY_COMMAND_BER64    0xD8     /* 64K Block Erase           3   0     */
 #define MEMORY_COMMAND_CER      0xC7     /* Chip Erase                0   0     */
 
-#define MEMORY_STATUS_WIP       BIT0     /* Bit 0: Write in progress bit */
-#define MEMORY_STATUS_WEL       BIT1     /* Bit 1: Write enable latch bit */
+#define MEMORY_STATUS_WIP       0x01     /* Bit 0: Write in progress bit */
+#define MEMORY_STATUS_WEL       0x02     /* Bit 1: Write enable latch bit */
 
-void memory_setup();
-void memory_enable();
-void memory_disable();
-void memory_write_enable();
-void memory_write_disable();
-uint8_t memory_status();
+#define SECTOR_SIZE             512      /* Bytes*/
+
+void memory_setup(void);
+void memory_write_enable(void);
+void memory_write_disable(void);
+uint8_t memory_status(void);
 void memory_id(uint8_t *id);
 void memory_page_program(uint32_t address, uint8_t *data, uint16_t length);
 void memory_read(uint32_t address, uint8_t *data, uint32_t length);
 void memory_sector_erase(uint32_t address);
 void memory_block_32k_erase(uint32_t address);
-void memory_chip_erase();
+void memory_chip_erase(void);
 
 #endif /* FLASH_MEMORY_H_ */

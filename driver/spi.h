@@ -8,11 +8,10 @@
 #ifndef SPI_H_
 #define SPI_H_
 
-#include "../hal.h"
-#include "../misc/misc.h"
+#include <stdint.h>
 
-void spi_setup();
+void spi_setup(void);
 void spi_write_byte(uint8_t byte);
-uint8_t spi_read_byte();
+uint8_t spi_read_byte(void);
 
 #endif /* SPI_H_ */

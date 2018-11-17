@@ -5,46 +5,45 @@
  *      Author: elder
  */
 
+#include "../misc/misc.h"
+#include "../hal.h"
+#include "../driver/spi.h"
 #include "flash_memory.h"
 
-void memory_setup()
+#define wait_while_memory_is_busy()   while(memory_status() & MEMORY_STATUS_WIP)
+
+void memory_setup(void)
 {
-    BIT_SET(MEMORY_CE_OUT, MEMORY_CE_PIN);
-    BIT_SET(MEMORY_CE_DIR, MEMORY_CE_PIN);
-
-    BIT_SET(MEMORY_WP_DIR, MEMORY_WP_PIN);
-    BIT_SET(MEMORY_WP_OUT, MEMORY_WP_PIN);
-
-    BIT_SET(MEMORY_HOLD_DIR, MEMORY_HOLD_PIN);
-    BIT_SET(MEMORY_HOLD_OUT, MEMORY_HOLD_PIN);
+    FLASH_SELECT_N_OUTPUT(HIGH);
+    FLASH_SELECT_N_SETUP();
 }
 
-void memory_enable()
+void memory_enable(void)
 {
-    BIT_CLEAR(MEMORY_CE_OUT, MEMORY_CE_PIN);
+    FLASH_SELECT_N_OUTPUT(LOW);
     __delay_cycles(10);
 }
-void memory_disable()
+void memory_disable(void)
 {
-    BIT_SET(MEMORY_CE_OUT, MEMORY_CE_PIN);
+    FLASH_SELECT_N_OUTPUT(HIGH);
     __delay_cycles(10);
 }
 
-void memory_write_enable()
+void memory_write_enable(void)
 {
     memory_enable();
     spi_write_byte(MEMORY_COMMAND_WREN);
     memory_disable();
 }
 
-void memory_write_disable()
+void memory_write_disable(void)
 {
     memory_enable();
     spi_write_byte(MEMORY_COMMAND_WRDI);
     memory_disable();
 }
 
-uint8_t memory_status()
+uint8_t memory_status(void)
 {
     volatile uint8_t status;
 
@@ -88,21 +87,23 @@ void memory_page_program(uint32_t address, uint8_t *data, uint16_t length)
     spi_write_byte(address>>8  & 0xFF);
     spi_write_byte(address     & 0xFF);
 
-//    for(i = 0; i < length; i++)
-//    {
-//        spi_write_byte(data[i]);
-//    }
-    for(i = 0; i < length; i = i+4)
+    for(i = 0; i < length; i++)
     {
-        spi_write_byte(data[i+3]);
-        spi_write_byte(data[i+2]);
-        spi_write_byte(data[i+1]);
         spi_write_byte(data[i]);
     }
 
+//    testing purpose: bitstream is backwards
+//    for(i = 0; i < length; i = i+4)
+//    {
+//        spi_write_byte(data[i+3]);
+//        spi_write_byte(data[i+2]);
+//        spi_write_byte(data[i+1]);
+//        spi_write_byte(data[i]);
+//    }
+
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }
 
 void memory_read(uint32_t address, uint8_t *data, uint32_t length)
@@ -141,7 +142,7 @@ void memory_sector_erase(uint32_t address)
 
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }
 
 void memory_block_32k_erase(uint32_t address)
@@ -160,10 +161,10 @@ void memory_block_32k_erase(uint32_t address)
 
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }
 
-void memory_chip_erase()
+void memory_chip_erase(void)
 {
 //    if((memory_status() & MEMORY_STATUS_WEL) == 0)
 //    {
@@ -176,5 +177,5 @@ void memory_chip_erase()
 
     memory_disable();
 
-    while(memory_status() & MEMORY_STATUS_WIP);
+    wait_while_memory_is_busy();
 }

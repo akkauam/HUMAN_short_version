@@ -1,12 +1,21 @@
-#include "hal.h"
-
-
 /**
  * main.c
  */
+
+#include "src/boot.h"
+#include "src/human.h"
+
 int main(void)
 {
-	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
-	
-	return 0;
+    mcu_boot();
+
+    housekeeping();
+
+    //It will never reach here
+
+    return 0;
 }
+
+
+
+
