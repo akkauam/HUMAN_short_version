@@ -15,9 +15,9 @@
 #define CHOOSE_IMAGE_A              1
 #define CHOOSE_IMAGE_B              2
 
+uint8_t is_memory_ok(void);
 void update_target(void);
 void housekeeping(void);
-void check_bitstreams_integrity(uint32_t bitstream_address[3]);
 uint8_t check_active_bitstream_integrity(void);
 void swap_image_in_use(uint8_t version);
 

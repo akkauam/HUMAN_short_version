@@ -14,7 +14,7 @@
 #define BRAVE_CONFIGURATION_OK          2
 
 void brave_send(uint8_t *data, uint16_t length);
-void brave_receive(uint8_t *data, uint16_t length);
+//void brave_receive(uint8_t *data, uint16_t length);
 void brave_setup(void);
 uint8_t brave_status(void);
 

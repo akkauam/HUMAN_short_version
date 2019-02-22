@@ -13,6 +13,6 @@
 #define I2C_FLAG_TX     0x02
 #define I2C_FLAG_STOP   0x04
 
-void i2c0_setup(uint8_t *buffer_address, uint8_t *new_data_flag);
+void i2c0_setup();
 
 #endif /* DRIVER_I2C_H_ */

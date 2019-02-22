@@ -16,6 +16,14 @@ void memory_setup(void)
 {
     FLASH_SELECT_N_OUTPUT(HIGH);
     FLASH_SELECT_N_SETUP();
+
+    //todo: retirar {
+    BIT_SET(P2DIR, BIT7);
+    BIT_SET(P2OUT, BIT7);
+
+    BIT_SET(P2DIR, BIT6);
+    BIT_SET(P2OUT, BIT6);
+    //todo: retirar }
 }
 
 void memory_enable(void)
@@ -63,7 +71,7 @@ void memory_id(uint8_t *id)
     memory_enable();
 
     spi_write_byte(MEMORY_COMMAND_RDID);
-    spi_read_byte();
+//    spi_read_byte();
     id[0] = spi_read_byte();
     id[1] = spi_read_byte();
     id[2] = spi_read_byte();
@@ -117,7 +125,7 @@ void memory_read(uint32_t address, uint8_t *data, uint32_t length)
     spi_write_byte(address>>8  & 0xFF);
     spi_write_byte(address     & 0xFF);
 
-    spi_read_byte();
+//    spi_read_byte();
     for(i = 0; i < length; i++)
     {
         data[i] = spi_read_byte();

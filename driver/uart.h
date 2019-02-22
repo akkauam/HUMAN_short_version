@@ -9,7 +9,9 @@
 
 #include <stdint.h>
 
-void uart0_set_rx_pointer(uint8_t *buffer_address);
+#define FIFO_UART_MAX_LENGTH    200
+#define UART_FLAG_RX            0x01
+
 void uart0_write(uint8_t *data, uint8_t length);
 void uart0_read(uint8_t *data, uint8_t length);
 void uart0_flush(void);

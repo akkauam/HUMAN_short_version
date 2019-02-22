@@ -7,15 +7,16 @@
 
 #include <msp430.h>
 #include "uart.h"
+#include "../misc/project_definitions.h"
+
 
 uint8_t *p_rx_buffer;
 uint8_t *buffer_iterator;
 
-void uart0_set_rx_pointer(uint8_t *buffer_address)
-{
-    p_rx_buffer = buffer_address;
-    buffer_iterator = p_rx_buffer;
-}
+volatile uint16_t uart_buffer_index = 0;
+#pragma PERSISTENT(uart_buffer)
+volatile uint8_t uart_buffer[CCSDS_FRAME_SIZE] = {0xFF};
+volatile uint8_t uart_flag = 0;
 
 void uart0_setup(uint32_t baudrate)
 {
@@ -42,8 +43,9 @@ void uart0_setup(uint32_t baudrate)
     }
 
     UCA0CTLW0 &= ~UCSWRST;                    // Initialize eUSCI
-//    UCA0IE |= UCRXIE | UCSTTIE;               // Enable USCI_A0 RX and start interrupt
-    UCA0IE |= UCRXIE;                         // Enable USCI_A0 RX interrupt
+//    UCA0IE |= UCRXIE;                         // Enable USCI_A0 RX interrupt
+
+    __bis_SR_register(GIE);
 }
 
 void uart0_write(uint8_t *data, uint8_t length)
@@ -65,17 +67,16 @@ void uart0_flush(void)
     }
 }
 
-void uart0_read(uint8_t *data, uint8_t length)
-{
-    uart0_flush();
-    while (length--)
-    {
-        while (!(UCA0IFG & UCRXIFG));
-        *data =  UCA0RXBUF;
-        data++;
-    }
-}
-
+//void uart0_read(uint8_t *data, uint8_t length)
+//{
+//    uart0_flush();
+//    while (length--)
+//    {
+//        while (!(UCA0IFG & UCRXIFG));
+//        *data =  UCA0RXBUF;
+//        data++;
+//    }
+//}
 
 #pragma vector=USCI_A0_VECTOR
 __interrupt void USCI_A0_ISR(void)
@@ -84,12 +85,11 @@ __interrupt void USCI_A0_ISR(void)
   {
     case USCI_NONE: break;
     case USCI_UART_UCRXIFG:
-      *buffer_iterator = UCA0RXBUF;
-      buffer_iterator++;
+      uart_buffer[uart_buffer_index] = UCA0RXBUF;
+      uart_flag = UART_FLAG_RX;
       break;
     case USCI_UART_UCTXIFG: break;
     case USCI_UART_UCSTTIFG:
-//        buffer_iterator = p_rx_buffer;
         break;
     case USCI_UART_UCTXCPTIFG: break;
   }

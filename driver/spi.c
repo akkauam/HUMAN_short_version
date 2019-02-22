@@ -19,13 +19,14 @@ void spi_setup(void)
 
 
     UCA0CTLW0 = UCSWRST;                      // **Put state machine in reset**
-    UCA0CTLW0 |= UCMST | UCSYNC | UCCKPH | UCMSB; // 3-pin, 8-bit SPI master
+    UCA0CTLW0 |= UCMST | UCSYNC | UCCKPL | UCMSB; // 3-pin, 8-bit SPI master
                                               // Clock polarity high, MSB
     UCA0CTLW0 |= UCSSEL__SMCLK;               // SM 1MHz
     UCA0BR0 = 0x02;                           // /2
     UCA0BR1 = 0;                              //
     UCA0MCTLW = 0;                            // No modulation
     UCA0CTLW0 &= ~UCSWRST;                    // **Initialize USCI state machine**
+
 }
 
 void spi_write_byte(uint8_t byte)
@@ -33,6 +34,7 @@ void spi_write_byte(uint8_t byte)
     while(!(UCA0IFG & UCTXIFG)); //wait_for_buffer_empty
     UCA0TXBUF = byte;
     while(!(UCA0IFG & UCRXIFG)); //wait_for_data_sent
+    UCA0RXBUF;                   //RXBUF needs to be read to clear RXIFG
 }
 
 uint8_t spi_read_byte(void)

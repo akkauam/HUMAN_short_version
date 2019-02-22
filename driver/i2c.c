@@ -7,18 +7,21 @@
 
 #include "../hal.h"
 #include "i2c.h"
-
-uint8_t address_counter;
-uint32_t address;
-static uint8_t *buffer;
-uint8_t *flag;
+#include "../misc/project_definitions.h"
 
 
-void i2c0_setup(uint8_t *buffer_address, uint8_t *new_data_flag)
+
+#pragma PERSISTENT(i2c_tx_buffer)
+volatile uint8_t i2c_tx_buffer[TELEMETRY_FROM_UTMC_SEGMENT_SIZE] = {0xFF};
+
+volatile uint16_t i2c_buffer_index = 0;
+#pragma PERSISTENT(i2c_rx_buffer)
+volatile uint8_t i2c_tx_buffer[I2C_RX_BUF_SIZE] = {0xFF};
+volatile uint8_t i2c_flag = 0;
+
+
+void i2c0_setup()
 {
-    buffer = buffer_address;
-    flag = new_data_flag;
-
     SAT_BUS_I2C_SDA_SETUP();
     SAT_BUS_I2C_SCL_SETUP();
 
@@ -28,7 +31,8 @@ void i2c0_setup(uint8_t *buffer_address, uint8_t *new_data_flag)
     UCB0I2COA0 = 0x42 | UCOAEN;               // own address is 0x42 + enable
 
     UCB0CTLW0 &= ~UCSWRST;                    // clear reset register
-    UCB0IE |= UCTXIE0 | UCRXIE0 | UCSTTIE |UCSTPIE;              // transmit, receive, start and stop interrupt enable
+    UCB0IE |= UCTXIE0 | UCSTTIE |UCSTPIE;              // transmit, receive, start and stop interrupt enable
+    i2c_buffer_index = 0;
 }
 
 #pragma vector = USCI_B0_VECTOR
@@ -43,9 +47,7 @@ __interrupt void USCI_B0_ISR(void)
         break;
     case USCI_I2C_UCSTPIFG:                 // Vector 8: STPIFG
       UCB0IFG &= ~UCSTPIFG;                 // Clear stop condition int flag
-      address_counter = 0;
-      address = 0;
-      *flag |= I2C_FLAG_STOP;
+      i2c_flag |= I2C_FLAG_STOP;
       break;
     case USCI_I2C_UCRXIFG3:  break;         // Vector 10: RXIFG3
     case USCI_I2C_UCTXIFG3:  break;         // Vector 12: TXIFG3
@@ -54,29 +56,11 @@ __interrupt void USCI_B0_ISR(void)
     case USCI_I2C_UCRXIFG1:  break;         // Vector 18: RXIFG1
     case USCI_I2C_UCTXIFG1:  break;         // Vector 20: TXIFG1
     case USCI_I2C_UCRXIFG0:                 // Vector 22: RXIFG0
-        if(address_counter < 4)
-        {
-            address |= ((uint32_t)UCB0RXBUF)<<address_counter;
-            address_counter++;
-            if(address >= 10000) //invalid address
-            {
-                address = 0;
-            }
-        }
-        else
-        {
-            buffer[address] = UCB0RXBUF;
-            address++;
-            *flag |= I2C_FLAG_RX;
-        }
-        break;
+       break;
     case USCI_I2C_UCTXIFG0:                 // Vector 24: TXIFG0
-        if(address_counter >= 4)
-        {
-            UCB0TXBUF = buffer[address];
-            address++;
-            *flag |= I2C_FLAG_TX;
-        }
+        UCB0TXBUF = i2c_tx_buffer[i2c_buffer_index++];
+        i2c_flag |= I2C_FLAG_TX;
+
         break;
     case USCI_I2C_UCBCNTIFG: break;         // Vector 26: BCNTIFG
     case USCI_I2C_UCCLTOIFG: break;         // Vector 28: clock low timeout

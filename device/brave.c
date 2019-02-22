@@ -32,7 +32,7 @@ uint8_t brave_status(void)
 
 void brave_setup(void)
 {
-    uart0_set_rx_pointer(buffer);
+//    uart0_set_rx_pointer(buffer);
 
     BRAVE_UART_RX_SETUP();
     BRAVE_UART_TX_SETUP();
@@ -53,7 +53,7 @@ void brave_send(uint8_t *data, uint16_t length)
     uart0_write(data, length);
 }
 
-void brave_receive(uint8_t *data, uint16_t length)
-{
-    uart0_read(data, length);
-}
+//void brave_receive(uint8_t *data, uint16_t length)
+//{
+//    uart0_read(data, length);
+//}

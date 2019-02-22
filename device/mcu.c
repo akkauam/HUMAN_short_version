@@ -11,6 +11,8 @@
 #include "../driver/clock.h"
 #include "../driver/dma.h"
 #include "../driver/uart.h"
+#include "../driver/i2c.h"
+#include "../driver/spi.h"
 #include "../driver/watchdog_timer.h"
 #include "../device/brave.h"
 #include "../device/flash_memory.h"
@@ -26,7 +28,7 @@ void setup_gpio(void)
 
     gpio_reset();
 
-    brave_setup();
+//    brave_setup();
 
     utmc_setup();
 
@@ -38,9 +40,11 @@ void setup_gpio(void)
 void setup_communication_interfaces(void)
 {
 //    uca0_setup(USCI_SPI_MODE);
-    uart0_setup(115200);
 //    ucb0_setup(USCI_I2C_MODE);
 //    ucb1_setup(USCI_SPI_MODE);
+//    uart0_setup(115200);
+    i2c0_setup();
+    spi_setup();
 }
 
 void setup_hardware(void)
@@ -49,7 +53,8 @@ void setup_hardware(void)
 
     setup_gpio();
 
-    clock_setup();
+//todo: descomentar 
+//    clock_setup();
 
     setup_communication_interfaces();
 

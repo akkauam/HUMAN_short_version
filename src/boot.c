@@ -12,19 +12,22 @@ void mcu_boot(void)
 {
     setup_hardware();
 
-    if(check_active_bitstream_integrity() == RUNNING_IMAGE_CORRUPTED)
+    if(is_memory_ok())
     {
-        swap_image_in_use(CHOOSE_IMAGE_A);
-
         if(check_active_bitstream_integrity() == RUNNING_IMAGE_CORRUPTED)
         {
-            swap_image_in_use(CHOOSE_IMAGE_B);
+            swap_image_in_use(CHOOSE_IMAGE_A);
+
+            if(check_active_bitstream_integrity() == RUNNING_IMAGE_CORRUPTED)
+            {
+                swap_image_in_use(CHOOSE_IMAGE_B);
+            }
         }
     }
 
     update_target();
 
-    //checks if there is an error using this configuration
+//    READ_BRAVE_CONFIG_ERROR();//checks if there is an error using this configuration
 
     enable_interrupts();
 }
