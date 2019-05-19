@@ -8,8 +8,8 @@
 #define VARIABLES_H_
 
 extern volatile uint16_t i2c_buffer_index;
-extern volatile uint8_t i2c_tx_buffer[];
-extern volatile uint8_t i2c_rx_buffer[];
+extern volatile payload2_downlink_t i2c_tx_buffer[7];
+extern volatile payload2_uplink_t i2c_rx_buffer;
 extern volatile uint8_t i2c_flag;
 
 extern volatile uint16_t uart_buffer_index;

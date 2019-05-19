@@ -265,6 +265,7 @@ void bitstream_segment_upload(uint8_t *received_data)
 void housekeeping(void)
 {
     uint32_t bitstream_address[3];
+    payload2_uplink_t actual_command;
 
 
     while(1)
@@ -279,23 +280,53 @@ void housekeeping(void)
         bitstream_address[1] = IMAGE_B_COPY_2_ADDRESS;
         bitstream_address[2] = IMAGE_B_COPY_3_ADDRESS;
 
+
         check_bitstreams_integrity(bitstream_address);
 
-//        change state
-        if(i2c_flag & I2C_FLAG_STOP)
+        if(i2c_flag & I2C_FLAG_RX)
         {
-            if(DMA0_received_data_length() == TELECOMMAND_TO_UTMC_SIZE)
-            {
+            i2c_flag &= ~I2C_FLAG_RX;
+            actual_command = i2c_rx_buffer;
+            DMA0CTL |= DMAEN;
 
-            }//todo: zerar contador do dma
-            if(DMA0_received_data_length() == BITSTREAM_SEGMENT_SIZE)
+            switch (actual_command.type)
             {
-
+            case PAYLOAD2_CCSDS_TELECOMMAND:
+                break;
+            case PAYLOAD2_BITSTREAM_UPLOAD:
+                break;
+            case PAYLOAD2_BITSTREAM_SWAP:
+                break;
+            case PAYLOAD2_BITSTREAM_STATUS_REQUEST:
+                break;
+            case PAYLOAD2_NO_PENDING_DATA:
+            default:
+                break;
             }
-            if(DMA0_received_data_length() == DATA_REQUEST_SIZE)
-            {
+        }
 
-            }
+//        if()
+//        {
+//
+//        }
+
+
+//
+//        change state
+//        if(i2c_flag & I2C_FLAG_STOP)
+//        {
+//            if(DMA0_received_data_length() == TELECOMMAND_TO_UTMC_SIZE)
+//            {
+//
+//            }//todo: zerar contador do dma
+//            if(DMA0_received_data_length() == BITSTREAM_SEGMENT_SIZE)
+//            {
+//
+//            }
+//            if(DMA0_received_data_length() == DATA_REQUEST_SIZE)
+//            {
+//
+//            }
 //            switch(command)
 //            {
 //            case COMMAND_BITSTREAM_UPLOAD:
@@ -311,12 +342,12 @@ void housekeeping(void)
 //            case COMMAND_READ_DATA:
 //                break;
 //            }
-        }
-
-        if(uart_flag & UART_FLAG_RX)
-        {
-            split_utmc_telemetry();
-        }
+//        }
+//
+//        if(uart_flag & UART_FLAG_RX)
+//        {
+//            split_utmc_telemetry();
+//        }
     }
 }
 
@@ -324,12 +355,23 @@ void split_utmc_telemetry()
 {
     uint16_t sequence_number;
 
-    for(sequence_number = 0; sequence_number < 6; sequence_number++)
+    for(sequence_number = 0; sequence_number < NUMBER_OF_UTMC_SEGMENTS; sequence_number++)
+        i2c_tx_buffer[sequence_number].type = PAYLOAD2_NO_PENDING_DATA;
+
+    for(sequence_number = 0; sequence_number < NUMBER_OF_UTMC_SEGMENTS; sequence_number++)
     {
-        FRAM_utmc_tm_to_obdh[sequence_number * TELEMETRY_FROM_UTMC_SIZE] = sequence_number;
-        memcpy(FRAM_utmc_tm_to_obdh + sequence_number * TELEMETRY_FROM_UTMC_SIZE + 1,
-                                 uart_buffer + sequence_number * CCSDS_SUBFRAME_SIZE,
-                                                                CCSDS_SUBFRAME_SIZE);
+//        FRAM_utmc_tm_to_obdh[sequence_number * TELEMETRY_FROM_UTMC_SIZE] = sequence_number;
+//        memcpy(FRAM_utmc_tm_to_obdh + sequence_number * TELEMETRY_FROM_UTMC_SIZE + 1,
+//                                 uart_buffer + sequence_number * CCSDS_SUBFRAME_SIZE,
+//                                                                CCSDS_SUBFRAME_SIZE);
+
+        i2c_tx_buffer[sequence_number].data.ccsds_telemetry.segment_number = sequence_number;
+        memcpy( (void*) i2c_tx_buffer[sequence_number].data.ccsds_telemetry.segment,
+                (const void*) (uart_buffer + sizeof(i2c_tx_buffer->data.ccsds_telemetry.segment) * sequence_number),
+                sizeof(i2c_tx_buffer->data.ccsds_telemetry.segment));
+
+
+        i2c_tx_buffer[1].type = PAYLOAD2_CCSDS_TELEMETRY;
     }
 }
 

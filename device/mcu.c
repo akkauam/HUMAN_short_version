@@ -30,11 +30,11 @@ void setup_gpio(void)
 
 //    brave_setup();
 
-    utmc_setup();
+//    utmc_setup();
 
-    mux_setup();
+//    mux_setup();
 
-    memory_setup();
+//    memory_setup();
 }
 
 void setup_communication_interfaces(void)
@@ -44,7 +44,7 @@ void setup_communication_interfaces(void)
 //    ucb1_setup(USCI_SPI_MODE);
 //    uart0_setup(115200);
     i2c0_setup();
-    spi_setup();
+    //spi_setup();
 }
 
 void setup_hardware(void)
@@ -53,8 +53,7 @@ void setup_hardware(void)
 
     setup_gpio();
 
-//todo: descomentar 
-//    clock_setup();
+    clock_setup();
 
     setup_communication_interfaces();
 

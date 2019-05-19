@@ -15,7 +15,7 @@ uint8_t *buffer_iterator;
 
 volatile uint16_t uart_buffer_index = 0;
 #pragma PERSISTENT(uart_buffer)
-volatile uint8_t uart_buffer[CCSDS_FRAME_SIZE] = {0xFF};
+volatile uart_buffer_t uart_buffer = {0xFF};
 volatile uint8_t uart_flag = 0;
 
 void uart0_setup(uint32_t baudrate)
@@ -85,8 +85,7 @@ __interrupt void USCI_A0_ISR(void)
   {
     case USCI_NONE: break;
     case USCI_UART_UCRXIFG:
-      uart_buffer[uart_buffer_index] = UCA0RXBUF;
-      uart_flag = UART_FLAG_RX;
+      uart_buffer.byte[uart_buffer_index++] = UCA0RXBUF;
       break;
     case USCI_UART_UCTXIFG: break;
     case USCI_UART_UCSTTIFG:

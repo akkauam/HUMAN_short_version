@@ -83,7 +83,7 @@ uint8_t clock_setup(void)
 
     setup_dco();
     //todo: descomentar
-//    setup_xt1_xt2();
+    setup_xt1_xt2();
 
     setup_clk_sources();
 

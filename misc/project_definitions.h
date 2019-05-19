@@ -21,7 +21,46 @@
 #define DATA_REQUEST_SIZE               1
 
 #define TELEMETRY_FROM_UTMC_SEGMENT_SIZE (CCSDS_SUBFRAME_SIZE + 1)
-#define TELEMETRY_FROM_UTMC_SIZE         (TELEMETRY_FROM_UTMC_SEGMENT_SIZE * 6)
+#define TELEMETRY_FROM_UTMC_SIZE         (TELEMETRY_FROM_UTMC_SEGMENT_SIZE * NUMBER_OF_UTMC_SEGMENTS)
+#define NUMBER_OF_UTMC_SEGMENTS          6
+#define NUMBER_OF_STATUS_SEGMENTS        1
+
+typedef struct {
+    uint8_t type;
+    union{
+        struct{
+            uint8_t segment[192];
+            uint8_t segment_number;
+        }ccsds_telemetry;
+        struct {
+            uint8_t status_segment[218];
+            uint16_t segment_number;
+        }bitstream_status_replay;
+    }data;
+} payload2_downlink_t;
+
+typedef struct {
+    uint8_t type;
+    union{
+        uint8_t bitstream_Upload[84];
+        uint8_t ccsds_telecommand[82];
+        uint8_t cmd;
+    }data;
+} payload2_uplink_t;
+
+typedef union{
+    uint8_t byte[1119];
+    uint32_t compare;
+} uart_buffer_t;
+
+#define PAYLOAD2_CCSDS_TELECOMMAND          'T'    /**< command to request telecommand to playloadx*/
+#define PAYLOAD2_BITSTREAM_UPLOAD           'U'    /**< command to request playloadx bitstream upload*/
+#define PAYLOAD2_BITSTREAM_SWAP             'V'    /**< command to request a swap version of payloadx bitstream*/
+#define PAYLOAD2_BITSTREAM_STATUS_REQUEST   'S'    /**< command to request the status of bitstream frames*/
+#define PAYLOAD2_BITSTREAM_STATUS_REPLAY    'S'
+#define PAYLOAD2_CCSDS_TELEMETRY            'T'
+#define PAYLOAD2_NO_PENDING_DATA            'N'
+
 
 //todo: trocar pelo ID da memória de voo { 
 #define MEM_ID_BYTE_0                   0x9D
@@ -40,6 +79,8 @@ typedef struct {
     uint16_t sequence_number;
     uint16_t crc;
 } bitstream_segment_t;
+
+
 
 
 //memory position  in bytes

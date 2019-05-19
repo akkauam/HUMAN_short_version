@@ -5,10 +5,11 @@
 #include <msp430.h>
 #include "src/boot.h"
 #include "src/human.h"
+#include "hal.h"
 
 int main(void)
 {
-    //todo: verificar clocks
+
     mcu_boot();
 
     housekeeping();
