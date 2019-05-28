@@ -42,16 +42,15 @@ typedef struct {
 typedef struct {
     uint8_t type;
     union{
-        uint8_t bitstream_Upload[84];
+        uint8_t bitstream_upload[84];
         uint8_t ccsds_telecommand[82];
-        uint8_t cmd;
+        uint8_t status_argument[2];
     }data;
 } payload2_uplink_t;
 
 typedef union{
     uint8_t byte[1119];
-    uint32_t compare;
-} uart_buffer_t;
+} uart_buffer_rx_t;
 
 #define PAYLOAD2_CCSDS_TELECOMMAND          'T'    /**< command to request telecommand to playloadx*/
 #define PAYLOAD2_BITSTREAM_UPLOAD           'U'    /**< command to request playloadx bitstream upload*/

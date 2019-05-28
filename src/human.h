@@ -20,6 +20,8 @@ void update_target(void);
 void housekeeping(void);
 uint8_t check_active_bitstream_integrity(void);
 void swap_image_in_use(uint8_t version);
+void split_utmc_telemetry();
+void utmc_telemetry_verify();
 
 #endif /* SRC_HUMAN_H_ */
 

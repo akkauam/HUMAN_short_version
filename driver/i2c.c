@@ -51,9 +51,9 @@ __interrupt void USCI_B0_ISR(void)
     case USCI_I2C_UCSTTIFG:                 // Vector 6: STTIFG
         if(UCTR & UCB0CTLW0)                //if are in transmite mode
         {
-            for (n = 0; n < NUMBER_OF_STATUS_SEGMENTS + status_offset &&
-                (i2c_tx_buffer[(status_offset + n) % NUMBER_OF_STATUS_SEGMENTS + NUMBER_OF_UTMC_SEGMENTS].type
-                != PAYLOAD2_BITSTREAM_STATUS_REPLAY); n++);
+            for (n = 0; n < (NUMBER_OF_STATUS_SEGMENTS + status_offset) &&
+                (i2c_tx_buffer[(status_offset + n) % NUMBER_OF_STATUS_SEGMENTS + NUMBER_OF_UTMC_SEGMENTS].type != PAYLOAD2_BITSTREAM_STATUS_REPLAY);
+                n++);
 
             status_offset = (status_offset + n) % NUMBER_OF_STATUS_SEGMENTS;
             actual_transfer = status_offset + NUMBER_OF_UTMC_SEGMENTS;

@@ -12,10 +12,8 @@
 #include "../driver/dma.h"
 #include "../driver/uart.h"
 #include "../driver/i2c.h"
-#include "../driver/spi.h"
 #include "../driver/watchdog_timer.h"
 #include "../device/brave.h"
-#include "../device/flash_memory.h"
 #include "../device/mux.h"
 #include "../device/utmc.h"
 #include "mcu.h"
@@ -64,5 +62,5 @@ void setup_hardware(void)
 
 void enable_interrupts(void)
 {
-
+    __enable_interrupt();
 }

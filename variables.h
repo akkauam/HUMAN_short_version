@@ -12,8 +12,11 @@ extern volatile payload2_downlink_t i2c_tx_buffer[7];
 extern volatile payload2_uplink_t i2c_rx_buffer;
 extern volatile uint8_t i2c_flag;
 
-extern volatile uint16_t uart_buffer_index;
-extern volatile uint8_t uart_buffer[];
+extern volatile uint16_t uart_buffer_rx_index;
+extern volatile uint16_t uart_buffer_rx_offset;
+extern volatile uint16_t uart_buffer_tx_index;
+extern volatile uart_buffer_rx_t uart_buffer_rx;
+extern volatile payload2_uplink_t uart_buffer_tx;
 extern volatile uint8_t uart_flag;
 
 #endif /* VARIABLES_H_ */

@@ -8,14 +8,26 @@
 #include <msp430.h>
 #include "uart.h"
 #include "../misc/project_definitions.h"
+#include "../variables.h"
 
 
 uint8_t *p_rx_buffer;
 uint8_t *buffer_iterator;
 
-volatile uint16_t uart_buffer_index = 0;
-#pragma PERSISTENT(uart_buffer)
-volatile uart_buffer_t uart_buffer = {0xFF};
+#pragma PERSISTENT(uart_buffer_rx_index)
+volatile uint16_t uart_buffer_rx_index = 0;
+#pragma PERSISTENT(uart_buffer_rx_offset)
+volatile uint16_t uart_buffer_rx_offset = 0;
+
+#pragma PERSISTENT(uart_buffer_tx_index)
+volatile uint16_t uart_buffer_tx_index = 0;
+
+
+#pragma PERSISTENT(uart_buffer_rx)
+volatile uart_buffer_rx_t uart_buffer_rx = {0xFF};
+//volatile uint8_t uart_buffer_rx[1119] = {0xFF};
+#pragma PERSISTENT(uart_buffer_tx)
+volatile payload2_uplink_t uart_buffer_tx = {0xFF};
 volatile uint8_t uart_flag = 0;
 
 void uart0_setup(uint32_t baudrate)
@@ -85,9 +97,13 @@ __interrupt void USCI_A0_ISR(void)
   {
     case USCI_NONE: break;
     case USCI_UART_UCRXIFG:
-      uart_buffer.byte[uart_buffer_index++] = UCA0RXBUF;
+      uart_buffer_rx.byte[uart_buffer_rx_index++] = UCA0RXBUF;
+      uart_buffer_rx_index %= sizeof(uart_buffer_rx);
       break;
-    case USCI_UART_UCTXIFG: break;
+    case USCI_UART_UCTXIFG:
+        if(uart_buffer_tx_index < sizeof(i2c_rx_buffer.data.ccsds_telecommand))
+            UCA0RXBUF = uart_buffer_tx.data.ccsds_telecommand[uart_buffer_tx_index++];
+        break;
     case USCI_UART_UCSTTIFG:
         break;
     case USCI_UART_UCTXCPTIFG: break;
